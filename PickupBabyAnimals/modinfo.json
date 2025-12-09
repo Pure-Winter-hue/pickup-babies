@@ -1,0 +1,10 @@
+{
+  "type": "code",
+  "modid": "pickupbabyanimals",
+  "name": "PickupBabyAnimals",
+  "side": "universal",
+  "authors": [ "Pure Winter" ],
+  "description": "Crouch right click to pick up baby animals!",
+  "version": "1.0.0",
+  "dependencies": { "game": "" }
+}
