@@ -1,2 +1,6 @@
 v1.0.0 Changelog
 - Initial release
+
+1.0.1
+-Added compat.cs that will support mods that need to be added.
+-Added support for moreanimals mod.
