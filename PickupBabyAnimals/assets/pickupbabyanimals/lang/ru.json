@@ -1,0 +1,6 @@
+{
+  "item-capturedbaby": "Пойманное животное",
+  "game:ingameerror-pickupbabyanimals-toobig": "Слишком большой, требуется слот рюкзака!",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "Ты не можешь поднять этот вид!",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Нет места в инвентаре для волчонка."
+}

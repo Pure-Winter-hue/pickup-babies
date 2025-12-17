@@ -1,0 +1,6 @@
+{
+  "item-capturedbaby": "สัตว์ที่จับได้",
+  "game:ingameerror-pickupbabyanimals-toobig": "ใหญ่เกินไป ต้องใช้ช่องกระเป๋าเป้!",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "คุณไม่สามารถอุ้มสัตว์ชนิดนี้ได้!",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "ไม่มีที่ว่างในช่องเก็บของสำหรับลูกหมาป่า"
+}

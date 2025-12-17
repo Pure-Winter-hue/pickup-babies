@@ -1,0 +1,6 @@
+{
+  "item-capturedbaby": "捕获的动物",
+  "game:ingameerror-pickupbabyanimals-toobig": "太大了，需要背包槽位！",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "你无法抱起这种动物！",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "你的背包里没有空间放下狼崽。"
+}

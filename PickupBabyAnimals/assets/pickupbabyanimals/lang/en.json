@@ -1,3 +1,6 @@
 {
-    "hello": "hello world!"
+  "item-capturedbaby": "Captured Animal",
+  "game:ingameerror-pickupbabyanimals-toobig": "Too big, requires backpack slot!",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "You can't pick up this species!",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "No space in your inventory for a wolf pup."
 }

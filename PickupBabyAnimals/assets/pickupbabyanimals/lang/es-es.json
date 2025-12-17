@@ -1,0 +1,6 @@
+{
+  "item-capturedbaby": "Animal capturado",
+  "game:ingameerror-pickupbabyanimals-toobig": "¡Demasiado grande, requiere un espacio de mochila!",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "¡No puedes recoger esta especie!",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "No hay espacio en tu inventario para un cachorro de lobo."
+}

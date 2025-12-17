@@ -1,0 +1,6 @@
+{
+  "item-capturedbaby": "Befogott állat",
+  "game:ingameerror-pickupbabyanimals-toobig": "Túl nagy, hátizsákhelyet igényel!",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "Ezt a fajt nem tudod felvenni!",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Nincs hely a leltáradban egy farkaskölyöknek."
+}

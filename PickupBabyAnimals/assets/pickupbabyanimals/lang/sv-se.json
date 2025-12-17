@@ -1,0 +1,6 @@
+{
+  "item-capturedbaby": "Infångat djur",
+  "game:ingameerror-pickupbabyanimals-toobig": "För stor, kräver ryggsäcksplats!",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "Du kan inte plocka upp den här arten!",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Inget utrymme i ditt inventarium för en vargvalp."
+}

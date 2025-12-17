@@ -1,0 +1,6 @@
+{
+  "item-capturedbaby": "Animal capturé",
+  "game:ingameerror-pickupbabyanimals-toobig": "Trop grand, nécessite un emplacement de sac à dos !",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "Tu ne peux pas ramasser cette espèce !",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Pas assez de place dans ton inventaire pour un louveteau."
+}

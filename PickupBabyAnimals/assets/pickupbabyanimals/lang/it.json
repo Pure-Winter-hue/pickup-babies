@@ -1,0 +1,6 @@
+{
+  "item-capturedbaby": "Animale catturato",
+  "game:ingameerror-pickupbabyanimals-toobig": "Troppo grande, richiede uno slot nello zaino!",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "Non puoi raccogliere questa specie!",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Nessuno spazio nel tuo inventario per un cucciolo di lupo."
+}

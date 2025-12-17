@@ -1,4 +1,6 @@
-﻿using Vintagestory.API.Common;
+﻿using System;
+using System.IO;
+using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
@@ -56,16 +58,32 @@ namespace PickupBabyAnimals
             Entity entity = byEntity.World.ClassRegistry.CreateEntity(type);
             if (entity == null) return;
 
-            entity.ServerPos.X = blockSel.Position.X + (blockSel.DidOffset ? 0 : blockSel.Face.Normali.X) + 0.5f;
-            entity.ServerPos.Y = blockSel.Position.Y + (blockSel.DidOffset ? 0 : blockSel.Face.Normali.Y);
-            entity.ServerPos.Z = blockSel.Position.Z + (blockSel.DidOffset ? 0 : blockSel.Face.Normali.Z) + 0.5f;
-            entity.ServerPos.Yaw = byEntity.Pos.Yaw + GameMath.PI;
-            entity.ServerPos.Dimension = blockSel.Position.dimension;
+            // Cache intended spawn position first (ApplyStoredData may restore an old position from bytes)
+            double spawnX = blockSel.Position.X + (blockSel.DidOffset ? 0 : blockSel.Face.Normali.X) + 0.5f;
+            double spawnY = blockSel.Position.Y + (blockSel.DidOffset ? 0 : blockSel.Face.Normali.Y);
+            double spawnZ = blockSel.Position.Z + (blockSel.DidOffset ? 0 : blockSel.Face.Normali.Z) + 0.5f;
+            float spawnYaw = byEntity.Pos.Yaw + GameMath.PI;
+            int spawnDim = blockSel.Position.dimension;
+
+            entity.ServerPos.X = spawnX;
+            entity.ServerPos.Y = spawnY;
+            entity.ServerPos.Z = spawnZ;
+            entity.ServerPos.Yaw = spawnYaw;
+            entity.ServerPos.Dimension = spawnDim;
             entity.Pos.SetFrom(entity.ServerPos);
             entity.PositionBeforeFalling.Set(entity.ServerPos.X, entity.ServerPos.Y, entity.ServerPos.Z);
 
             // Re-apply all stored attributes (including tint, coat, genetics, etc.)
             ApplyStoredData(slot.Itemstack, entity);
+
+            // Re-apply intended spawn position (in case ApplyStoredData restored an old position)
+            entity.ServerPos.X = spawnX;
+            entity.ServerPos.Y = spawnY;
+            entity.ServerPos.Z = spawnZ;
+            entity.ServerPos.Yaw = spawnYaw;
+            entity.ServerPos.Dimension = spawnDim;
+            entity.Pos.SetFrom(entity.ServerPos);
+            entity.PositionBeforeFalling.Set(entity.ServerPos.X, entity.ServerPos.Y, entity.ServerPos.Z);
 
             // Ensure origin is set to playerplaced (overrides whatever we restored)
             entity.Attributes.SetString("origin", "playerplaced");
@@ -84,20 +102,50 @@ namespace PickupBabyAnimals
         }
 
         /// <summary>
-        /// Restores the full Attributes and WatchedAttributes trees that were saved
-        /// when the baby was picked up.
-        /// </summary>
-        /// <summary>
-        /// Restores the full Attributes and WatchedAttributes trees that were saved
-        /// when the baby was picked up.
+        /// Restores entity state that was saved when the creature was picked up.
+        /// Prefers full Entity.ToBytes/FromBytes data if present, and falls back
+        /// to Attributes/WatchedAttributes tree cloning for backwards compatibility.
         /// </summary>
         private void ApplyStoredData(ItemStack stack, Entity entity)
         {
             if (stack?.Attributes == null || entity == null) return;
 
             // Top-level attribute tree on the item
-            ITreeAttribute root = stack.Attributes;
+            TreeAttribute root = stack.Attributes as TreeAttribute;
             if (root == null) return;
+
+            // ===== Full entity bytes (best preservation) =====
+            // This will restore internal behavior state that isn't always represented
+            // in Attributes/WatchedAttributes.
+            byte[] bytes = null;
+            try
+            {
+                bytes = root.GetBytes("pickupbabies.entityBytes", null);
+            }
+            catch
+            {
+                // ignore
+            }
+
+            if (bytes != null && bytes.Length > 0)
+            {
+                try
+                {
+                    using (var ms = new MemoryStream(bytes))
+                    using (var br = new BinaryReader(ms))
+                    {
+                        // isSync=false because we're restoring a saved entity snapshot
+                        entity.FromBytes(br, false);
+                    }
+
+                    // Never reuse a stored entity id
+                    entity.EntityId = 0;
+                }
+                catch (Exception e)
+                {
+                    entity.World?.Logger?.Warning("ItemPickupBabyCreature: Failed to restore entity bytes ({0}). Falling back to attribute trees.", e.Message);
+                }
+            }
 
             // ===== Normal Attributes =====
             // These were saved as a cloned TreeAttribute on the stack.

@@ -1,0 +1,6 @@
+{
+  "item-capturedbaby": "Ухваћена животиња",
+  "game:ingameerror-pickupbabyanimals-toobig": "Превелико, потребан је слот ранца!",
+  "game:ingameerror-pickupbabyanimals-cantpickup": "Не можеш да подигнеш ову врсту!",
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Нема места у твом инвентару за вуче."
+}

@@ -4,3 +4,7 @@ v1.0.0 Changelog
 1.0.1
 -Added compat.cs that will support mods that need to be added.
 -Added support for moreanimals mod.
+
+1.1.0
+-Added configuration support. (hueristic)
+-Added localization for language keys. (100% complete.)
