@@ -5,6 +5,7 @@ v1.0.0 Changelog
 -Added compat.cs that will support mods that need to be added.
 -Added support for moreanimals mod.
 
-1.1.0
--Added configuration support. (hueristic)
--Added localization for language keys. (100% complete.)
+1.1.1
+-Added caught animal info to the mouse hoverover/tool tip. Auto localizes from available vanilla or mod content- if a mod added something unusual it will still try to resolve a proper name, and then falls back to a simple English word like 'Baby'. If the mod is not localizing into your language for vanilla content let me know. :)
+-Update is backwards compatible with all verisons of this mod, safe to install on existing saves and will update currently held animals to show tooltip.
+-New logic in the event of 'failure' to find names should never crash your game. (Not that it did before, just sayin' guards were made to prevent that! :)
