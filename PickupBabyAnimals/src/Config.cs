@@ -4,11 +4,12 @@ using System.Text.RegularExpressions;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 
-namespace PickupBabyAnimals
+namespace PickupBabyAnimals.src
 {
     /// <summary>
     /// Stored in ModConfig/babysnatcher.json
-    /// - Blacklist: species you can never pick up (using the sneak pickup)
+    /// - Blacklist: species you can never pick up (overrides everything)
+    /// - Whitelist: species you can always pick up (even if not juvenile)
     /// - BackpackList: species that must go into backpack inventory (not the held slot)
     /// - BackpackDomainsIfJuvenile: any juvenile from these domains requires backpack inventory
     ///
@@ -16,11 +17,18 @@ namespace PickupBabyAnimals
     /// - entries containing '*' are treated like globs (wildcards)
     /// - entries starting with "domain:" match entity.Code.Domain
     /// - entries starting with "code:" match the full "domain:path" (supports '*')
-    /// - otherwise: substring match against domain, path, "domain:path", and age/stage/lifestage variants
+    /// - otherwise: substring match against domain, path, "domain:path", "domain-path", and age/stage/lifestage variants
+    ///   (so "draconis" matches everything from that mod, and "draconis-icewyvern-*" works too)
     /// </summary>
     public class BabySnatcherConfig
     {
         public List<string> Blacklist { get; set; } = new();
+        /// <summary>
+        /// Whitelist: entities that can be picked up even if they are not juvenile.
+        /// Uses the same matching rules as Blacklist (substring, glob "*" wildcards, full "domain:path", or just "domain").
+        /// Examples: "icewyvern", "draconis", "draconis:icewyvern-*", "draconis-icewyvern-*"
+        /// </summary>
+        public List<string> Whitelist { get; set; } = new();
         public List<string> BackpackList { get; set; } = new();
         public List<string> BackpackDomainsIfJuvenile { get; set; } = new() { "draconis" };
 
@@ -41,6 +49,10 @@ namespace PickupBabyAnimals
                     // venom / creepy crawlies
                     "spider", "scorpion", "snake", "wasp", "hornet"
                 },
+
+                // Always pick up (even if not juvenile). Empty by default.
+                Whitelist = new List<string>(),
+
 
                 // Must go into backpack inventory
                 // plus juvenile animals from draconis (handled via BackpackDomainsIfJuvenile).
@@ -63,7 +75,13 @@ namespace PickupBabyAnimals
             return MatchesAny(e, Blacklist);
         }
 
-        public bool RequiresBackpackSlot(Entity e)
+        
+
+        public bool IsWhitelisted(Entity e)
+        {
+            return MatchesAny(e, Whitelist);
+        }
+public bool RequiresBackpackSlot(Entity e)
         {
             if (e?.Code == null) return false;
 
@@ -104,7 +122,14 @@ namespace PickupBabyAnimals
 
             string[] hay =
             {
-        domain, path, code,
+        domain,
+        path,
+        code,
+
+        // allow "domain-path-*" patterns (domains optional, ':' not required)
+        $"{domain}-{path}",
+        $"{domain}/{path}",
+
         age, stage, ls1, ls2,
         dispName
     };

@@ -8,7 +8,7 @@ using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.API.Client;
 
-namespace PickupBabyAnimals
+namespace PickupBabyAnimals.src
 {
     public class PickupBabyAnimalsModSystem : ModSystem
     {
@@ -100,12 +100,11 @@ namespace PickupBabyAnimals
             // Require empty hand 
             if (slot == null || !slot.Empty) return;
 
-            bool juvenile = BabySnatcherConfig.LooksLikeJuvenile(entity);
-            if (!juvenile && !IsAdultVanillaElk(entity)) return;
-
             var sPlayer = ePlayer.Player as IServerPlayer;
 
-            // Blacklist check
+            // User config overrides:
+            // - Blacklist always wins (even if code would allow pickup)
+            // - Whitelist allows pickup even if not juvenile (still requires sneak + empty hand)
             if (cfg != null && cfg.IsBlacklisted(entity))
             {
                 SendLocalizedError(sPlayer, "pickupbabyanimals-cantpickup");
@@ -113,7 +112,13 @@ namespace PickupBabyAnimals
                 return;
             }
 
-            // Build captured stack 
+            bool isWhitelisted = cfg != null && cfg.IsWhitelisted(entity);
+
+            bool juvenile = BabySnatcherConfig.LooksLikeJuvenile(entity);
+            if (!juvenile && !isWhitelisted && !IsAdultVanillaElk(entity)) return;
+
+
+// Build captured stack 
             ItemStack stack = CreateCapturedBabyStack(entity);
             if (stack == null) return;
 
@@ -236,6 +241,13 @@ namespace PickupBabyAnimals
             ItemStack pupStack = new ItemStack(pupItem);
 
             var sPlayer = ePlayer.Player as IServerPlayer;
+            // Respect config blacklist (override)
+            if (cfg != null && cfg.IsBlacklisted(entity))
+            {
+                SendLocalizedError(sPlayer, "pickupbabyanimals-cantpickup");
+                return false;
+            }
+
             bool fullyGiven = ePlayer.TryGiveItemStack(pupStack);
 
             if (!fullyGiven)

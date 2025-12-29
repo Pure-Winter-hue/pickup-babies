@@ -8,7 +8,7 @@ using System.Text;
 using System.Globalization;
 using Vintagestory.API.Config;
 
-namespace PickupBabyAnimals
+namespace PickupBabyAnimals.src
 {
     /// <summary>
     /// Creature item that remembers full stored attributes on the stack and reapplies them

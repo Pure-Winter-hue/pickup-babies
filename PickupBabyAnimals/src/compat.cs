@@ -6,7 +6,7 @@ using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 
-namespace PickupBabyAnimals
+namespace PickupBabyAnimals.src
 {
     /// <summary>
     /// Compatibility hook for the MoreAnimals mod:
@@ -19,13 +19,38 @@ namespace PickupBabyAnimals
 
         // Match these entity code prefixes (path portion). Covers:
         // wildturkey, wildturkey-chick, wildturkey-<variants>, etc.
+        // Plus birds from bird.zip (crows, ducks, swans, owl, sparrows, waxwings, robin).
         private static readonly HashSet<string> AllowedPrefixes =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
                 "wildturkey",
                 "pheasant",
                 "goldenpheasant",
-                "capercaillie"
+                "capercaillie",
+                "bird-crow",
+                "crow",
+                "call-duck",
+                "mallard-duck",
+                "pekin-duck",
+                "mute-swan",
+                "trumpeter-swan",
+                "blackswan",
+                "owl-brown",
+                "house-sparrow",
+                "waxwing",
+                "robin",
+                "acanthisittidae-baby",
+                "aegothelidae-baby",
+                "anatidae-baby",
+                "apterygidae-baby",
+                "aptornithidae-baby",
+                "dinornithidae-baby",
+                "emeidae-baby",
+                "megalapterygidae-baby",
+                "rallidae-baby",
+                "strigopidae-baby",
+                "snail",
+                "isopod"
             };
 
         public override void Start(ICoreAPI api)
@@ -84,7 +109,8 @@ namespace PickupBabyAnimals
             foreach (string prefix in AllowedPrefixes)
             {
                 if (path.Equals(prefix, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(prefix + "-", StringComparison.OrdinalIgnoreCase))
+                    path.StartsWith(prefix + "-", StringComparison.OrdinalIgnoreCase) ||
+                    path.StartsWith(prefix + "_", StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
