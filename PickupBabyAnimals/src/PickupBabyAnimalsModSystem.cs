@@ -75,6 +75,9 @@ namespace PickupBabyAnimals.src
             if (handling == EnumHandling.PreventDefault) return;
             if (entity == null || byPlayer == null) return;
 
+            // Don't allow picking up dead entities (corpses can still be interacted with for other actions)
+            if (!entity.Alive) return;
+
             if ((EnumInteractMode)mode != EnumInteractMode.Interact) return;
 
             var ePlayer = byPlayer.Entity as EntityPlayer;
@@ -228,6 +231,9 @@ namespace PickupBabyAnimals.src
             if (sapi == null) return false;
             if (entity == null || ePlayer == null) return false;
             if (entity.World.Side != EnumAppSide.Server) return false;
+
+            // Don't allow pickup of a corpse.
+            if (!entity.Alive) return false;
 
             if (!TryGetWolfPupItemCode(entity, out AssetLocation pupItemCode)) return false;
 

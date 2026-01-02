@@ -69,6 +69,9 @@ namespace PickupBabyAnimals.src
             if (handling == EnumHandling.PreventDefault) return;
             if (entity == null || byPlayer == null) return;
 
+            // Don't allow picking up dead entities.
+            if (!entity.Alive) return;
+
             // Only right-click interact
             if ((EnumInteractMode)mode != EnumInteractMode.Interact) return;
 
