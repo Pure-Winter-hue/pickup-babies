@@ -206,7 +206,8 @@ namespace PickupBabyAnimals.src
             // === Sprint + right click on wolf pups (unchanged) ===
             if (controls.Sprint)
             {
-                if (TryPickupWolfPupAsItem(entity, ePlayer))
+                // Config-driven spawn-item pickup (generalized wolf pup behavior)
+                if (TryPickupConfiguredEntityAsSpawnItem(entity, ePlayer) || TryPickupWolfPupAsItem(entity, ePlayer))
                 {
                     handling = EnumHandling.PreventDefault;
                 }
@@ -382,6 +383,110 @@ namespace PickupBabyAnimals.src
 
             entity.Die(EnumDespawnReason.PickedUp);
             return true;
+        }
+
+        /// <summary>
+        /// Config-driven "spawn item" pickup.
+        /// Mirrors the vanilla wolf pup interaction: sprint + right click gives you the
+        /// trader-buyable spawn item version of the entity.
+        /// </summary>
+        private bool TryPickupConfiguredEntityAsSpawnItem(Entity entity, EntityPlayer ePlayer)
+        {
+            if (sapi == null) return false;
+            if (entity == null || ePlayer == null) return false;
+            if (entity.World.Side != EnumAppSide.Server) return false;
+
+            // Respect per-player toggle
+            var plr = ePlayer.Player;
+            if (plr != null && !IsPickupEnabledFor(plr)) return false;
+
+            // Don't allow pickup of a corpse.
+            if (!entity.Alive) return false;
+
+            // No config (or empty list) => nothing to do.
+            if (cfg?.SpawnItemPickupList == null || cfg.SpawnItemPickupList.Count == 0) return false;
+
+            // Config gate
+            if (!cfg.IsSpawnItemPickup(entity)) return false;
+
+            // Respect blacklist (override)
+            var sPlayer = ePlayer.Player as IServerPlayer;
+            if (cfg.IsBlacklisted(entity))
+            {
+                SendLocalizedError(sPlayer, "pickupbabyanimals-cantpickup");
+                return false;
+            }
+
+            // Resolve the spawn item for this entity using a few forgiving heuristics.
+            if (!TryResolveSpawnItemForEntity(entity, out Item spawnItem)) return false;
+
+            ItemStack spawnStack = new ItemStack(spawnItem);
+
+            bool fullyGiven = ePlayer.TryGiveItemStack(spawnStack);
+            if (!fullyGiven)
+            {
+                // Reuse the existing "inventory full" error key (keeps lang file compatibility).
+                SendLocalizedError(sPlayer, "pickupbabyanimals-puppy-invfull");
+                return false;
+            }
+
+            // Despawn without death drops
+            if (entity.World is IServerWorldAccessor sworld)
+            {
+                sworld.DespawnEntity(entity, new EntityDespawnData { Reason = EnumDespawnReason.PickedUp });
+            }
+            else
+            {
+                entity.Die(EnumDespawnReason.PickedUp);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Heuristic spawn-item resolution:
+        /// - Try the entity code as-is (many mods use creature-* for both)
+        /// - If it doesn't start with creature-, try prefixing creature-
+        /// - If it does start with creature-, try stripping creature-
+        /// </summary>
+        private bool TryResolveSpawnItemForEntity(Entity entity, out Item item)
+        {
+            item = null;
+
+            if (sapi == null) return false;
+            if (entity?.Code == null) return false;
+
+            string domain = entity.Code.Domain ?? "game";
+            string path = entity.Code.Path ?? "";
+
+            var candidates = new List<AssetLocation>(3)
+            {
+                new AssetLocation(domain, path)
+            };
+
+            if (!path.StartsWith("creature-", StringComparison.OrdinalIgnoreCase))
+            {
+                candidates.Add(new AssetLocation(domain, "creature-" + path));
+            }
+            else
+            {
+                string stripped = path.Substring("creature-".Length);
+                if (!string.IsNullOrEmpty(stripped)) candidates.Add(new AssetLocation(domain, stripped));
+            }
+
+            foreach (var loc in candidates)
+            {
+                if (loc == null) continue;
+                var it = sapi.World.GetItem(loc);
+                if (it != null)
+                {
+                    item = it;
+                    return true;
+                }
+            }
+
+            // Not found.
+            return false;
         }
 
         private bool TryGetWolfPupItemCode(Entity entity, out AssetLocation itemCode)

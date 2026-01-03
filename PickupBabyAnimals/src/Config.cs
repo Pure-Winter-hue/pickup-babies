@@ -33,6 +33,16 @@ namespace PickupBabyAnimals.src
         public List<string> BackpackDomainsIfJuvenile { get; set; } = new() { "draconis" };
 
         /// <summary>
+        /// Entities that should be picked up as their "spawn item" when the player uses the
+        /// sprint gesture (default keybind is Shift for many players). This mirrors the vanilla
+        /// wolf pup behavior where you get back the trader-buyable spawn item.
+        ///
+        /// Uses the same heuristic matching rules as the other lists in this config.
+        /// Example: "caninae:*baby*" will match all baby entities from the caninae mod.
+        /// </summary>
+        public List<string> SpawnItemPickupList { get; set; } = new();
+
+        /// <summary>
         /// If true, pressing the toggle hotkey will print an enabled/disabled message to chat.
         /// Set to false to suppress chat notifications.
         /// </summary>
@@ -75,6 +85,14 @@ namespace PickupBabyAnimals.src
 
                 BackpackDomainsIfJuvenile = new List<string> { "draconis" },
 
+                // Sprint + right click => give the entity's spawn item instead of a capturedbaby.
+                // NOTE: "caninae:*-baby" would NOT match the provided caninae entity paths because
+                // they contain "-baby-" in the middle. Use *baby* to keep it forgiving.
+                SpawnItemPickupList = new List<string>
+                {
+                    "caninae:*baby*"
+                },
+
                 ChatNotificationToggle = true
             };
         }
@@ -90,7 +108,13 @@ namespace PickupBabyAnimals.src
         {
             return MatchesAny(e, Whitelist);
         }
-public bool RequiresBackpackSlot(Entity e)
+
+        public bool IsSpawnItemPickup(Entity e)
+        {
+            return MatchesAny(e, SpawnItemPickupList);
+        }
+
+        public bool RequiresBackpackSlot(Entity e)
         {
             if (e?.Code == null) return false;
 
