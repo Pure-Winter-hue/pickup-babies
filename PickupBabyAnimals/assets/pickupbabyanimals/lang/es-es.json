@@ -2,5 +2,8 @@
   "item-capturedbaby": "Animal capturado",
   "game:ingameerror-pickupbabyanimals-toobig": "¡Demasiado grande, requiere un espacio de mochila!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "¡No puedes recoger esta especie!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "No hay espacio en tu inventario para un cachorro de lobo."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "No hay espacio en tu inventario para un cachorro de lobo.",
+  "pickupbabyanimals-hotkey-toggle": "Alternar recogida de animales",
+  "pickupbabyanimals-chat-toggle-on": "Recoger animales: activado",
+  "pickupbabyanimals-chat-toggle-off": "Recoger animales: desactivado"
 }

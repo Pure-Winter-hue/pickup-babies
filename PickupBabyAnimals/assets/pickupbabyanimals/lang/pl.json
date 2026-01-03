@@ -2,5 +2,8 @@
   "item-capturedbaby": "Złapane zwierzę",
   "game:ingameerror-pickupbabyanimals-toobig": "Za duże, wymaga miejsca w plecaku!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Nie możesz podnieść tego gatunku!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Brak miejsca w twoim ekwipunku na wilcze szczenię."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Brak miejsca w twoim ekwipunku na wilcze szczenię.",
+  "pickupbabyanimals-hotkey-toggle": "Przełącz podnoszenie zwierząt",
+  "pickupbabyanimals-chat-toggle-on": "Podnoszenie zwierząt: włączone",
+  "pickupbabyanimals-chat-toggle-off": "Podnoszenie zwierząt: wyłączone"
 }

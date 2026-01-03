@@ -2,5 +2,8 @@
   "item-capturedbaby": "Animal capturat",
   "game:ingameerror-pickupbabyanimals-toobig": "Prea mare, necesită un slot de rucsac!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Nu poți ridica această specie!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Nu ai loc în inventar pentru un pui de lup."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Nu ai loc în inventar pentru un pui de lup.",
+  "pickupbabyanimals-hotkey-toggle": "Comută ridicarea animalelor",
+  "pickupbabyanimals-chat-toggle-on": "Ridicarea animalelor: activată",
+  "pickupbabyanimals-chat-toggle-off": "Ridicarea animalelor: dezactivată"
 }

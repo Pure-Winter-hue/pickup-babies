@@ -2,5 +2,8 @@
   "item-capturedbaby": "Ухваћена животиња",
   "game:ingameerror-pickupbabyanimals-toobig": "Превелико, потребан је слот ранца!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Не можеш да подигнеш ову врсту!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Нема места у твом инвентару за вуче."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Нема места у твом инвентару за вуче.",
+  "pickupbabyanimals-hotkey-toggle": "Укључи/искључи подизање животиња",
+  "pickupbabyanimals-chat-toggle-on": "Подизање животиња: укључено",
+  "pickupbabyanimals-chat-toggle-off": "Подизање животиња: искључено"
 }

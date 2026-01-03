@@ -2,5 +2,8 @@
   "item-capturedbaby": "Động vật bị bắt",
   "game:ingameerror-pickupbabyanimals-toobig": "Quá lớn, cần ô ba lô!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Bạn không thể nhặt loài này!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Không còn chỗ trong túi đồ của bạn cho một chó sói con."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Không còn chỗ trong túi đồ của bạn cho một chó sói con.",
+  "pickupbabyanimals-hotkey-toggle": "Bật/tắt nhặt động vật",
+  "pickupbabyanimals-chat-toggle-on": "Nhặt động vật: bật",
+  "pickupbabyanimals-chat-toggle-off": "Nhặt động vật: tắt"
 }

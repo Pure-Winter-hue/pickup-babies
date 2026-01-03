@@ -2,5 +2,8 @@
   "item-capturedbaby": "Befogott állat",
   "game:ingameerror-pickupbabyanimals-toobig": "Túl nagy, hátizsákhelyet igényel!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Ezt a fajt nem tudod felvenni!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Nincs hely a leltáradban egy farkaskölyöknek."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Nincs hely a leltáradban egy farkaskölyöknek.",
+  "pickupbabyanimals-hotkey-toggle": "Állatok felvételének ki-/bekapcsolása",
+  "pickupbabyanimals-chat-toggle-on": "Állatok felvétele: bekapcsolva",
+  "pickupbabyanimals-chat-toggle-off": "Állatok felvétele: kikapcsolva"
 }

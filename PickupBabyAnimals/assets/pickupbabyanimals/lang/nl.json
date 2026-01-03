@@ -2,5 +2,8 @@
   "item-capturedbaby": "Gevangen dier",
   "game:ingameerror-pickupbabyanimals-toobig": "Te groot, vereist een rugzakslot!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Je kunt deze soort niet oppakken!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Geen ruimte in je inventaris voor een wolvenwelp."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Geen ruimte in je inventaris voor een wolvenwelp.",
+  "pickupbabyanimals-hotkey-toggle": "Dieren oppakken schakelen",
+  "pickupbabyanimals-chat-toggle-on": "Dieren oppakken: ingeschakeld",
+  "pickupbabyanimals-chat-toggle-off": "Dieren oppakken: uitgeschakeld"
 }

@@ -2,5 +2,8 @@
   "item-capturedbaby": "捕獲的動物",
   "game:ingameerror-pickupbabyanimals-toobig": "太大了，需要背包欄位！",
   "game:ingameerror-pickupbabyanimals-cantpickup": "你無法抱起這種動物！",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "你的背包裡沒有空間放下狼崽。"
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "你的背包裡沒有空間放下狼崽。",
+  "pickupbabyanimals-hotkey-toggle": "切換動物拾取",
+  "pickupbabyanimals-chat-toggle-on": "動物拾取：已啟用",
+  "pickupbabyanimals-chat-toggle-off": "動物拾取：已停用"
 }

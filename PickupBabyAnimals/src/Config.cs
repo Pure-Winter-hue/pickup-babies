@@ -32,6 +32,13 @@ namespace PickupBabyAnimals.src
         public List<string> BackpackList { get; set; } = new();
         public List<string> BackpackDomainsIfJuvenile { get; set; } = new() { "draconis" };
 
+        /// <summary>
+        /// If true, pressing the toggle hotkey will print an enabled/disabled message to chat.
+        /// Set to false to suppress chat notifications.
+        /// </summary>
+        public bool ChatNotificationToggle { get; set; } = true;
+
+
         public static BabySnatcherConfig CreateDefault()
         {
             return new BabySnatcherConfig
@@ -66,7 +73,9 @@ namespace PickupBabyAnimals.src
                     "bison"
                 },
 
-                BackpackDomainsIfJuvenile = new List<string> { "draconis" }
+                BackpackDomainsIfJuvenile = new List<string> { "draconis" },
+
+                ChatNotificationToggle = true
             };
         }
 

@@ -2,5 +2,8 @@
   "item-capturedbaby": "포획한 동물",
   "game:ingameerror-pickupbabyanimals-toobig": "너무 큽니다. 배낭 슬롯이 필요합니다!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "이 종은 집어 올릴 수 없습니다!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "늑대 새끼를 넣을 인벤토리 공간이 없습니다."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "늑대 새끼를 넣을 인벤토리 공간이 없습니다.",
+  "pickupbabyanimals-hotkey-toggle": "동물 줍기 전환",
+  "pickupbabyanimals-chat-toggle-on": "동물 줍기: 활성화됨",
+  "pickupbabyanimals-chat-toggle-off": "동물 줍기: 비활성화됨"
 }

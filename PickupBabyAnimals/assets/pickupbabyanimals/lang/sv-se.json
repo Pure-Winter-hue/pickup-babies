@@ -2,5 +2,8 @@
   "item-capturedbaby": "Infångat djur",
   "game:ingameerror-pickupbabyanimals-toobig": "För stor, kräver ryggsäcksplats!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Du kan inte plocka upp den här arten!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Inget utrymme i ditt inventarium för en vargvalp."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Inget utrymme i ditt inventarium för en vargvalp.",
+  "pickupbabyanimals-hotkey-toggle": "Växla att plocka upp djur",
+  "pickupbabyanimals-chat-toggle-on": "Plocka upp djur: aktiverat",
+  "pickupbabyanimals-chat-toggle-off": "Plocka upp djur: inaktiverat"
 }

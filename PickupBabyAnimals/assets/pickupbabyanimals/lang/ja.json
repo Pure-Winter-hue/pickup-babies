@@ -2,5 +2,8 @@
   "item-capturedbaby": "捕獲した動物",
   "game:ingameerror-pickupbabyanimals-toobig": "大きすぎます。バックパックスロットが必要です！",
   "game:ingameerror-pickupbabyanimals-cantpickup": "この種は拾えません！",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "インベントリにオオカミの子が入る空きがありません。"
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "インベントリにオオカミの子が入る空きがありません。",
+  "pickupbabyanimals-hotkey-toggle": "動物の拾い上げを切り替え",
+  "pickupbabyanimals-chat-toggle-on": "動物の拾い上げ：有効",
+  "pickupbabyanimals-chat-toggle-off": "動物の拾い上げ：無効"
 }

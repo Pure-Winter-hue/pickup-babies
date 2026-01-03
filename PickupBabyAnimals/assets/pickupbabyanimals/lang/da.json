@@ -2,5 +2,8 @@
   "item-capturedbaby": "Indfanget dyr",
   "game:ingameerror-pickupbabyanimals-toobig": "For stor, kræver rygsæksplads!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Du kan ikke samle denne art op!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Der er ikke plads i dit inventar til en ulvehvalp."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Der er ikke plads i dit inventar til en ulvehvalp.",
+  "pickupbabyanimals-hotkey-toggle": "Skift dyreopsamling",
+  "pickupbabyanimals-chat-toggle-on": "Saml dyr op: aktiveret",
+  "pickupbabyanimals-chat-toggle-off": "Saml dyr op: deaktiveret"
 }

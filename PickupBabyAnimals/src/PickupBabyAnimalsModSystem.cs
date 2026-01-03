@@ -1,21 +1,62 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using ProtoBuf;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
-using Vintagestory.API.Client;
 
 namespace PickupBabyAnimals.src
 {
     public class PickupBabyAnimalsModSystem : ModSystem
     {
         private const string ConfigFileName = "babysnatcher.json";
+        private const string NetworkChannelName = "pickupbabyanimals";
+        private const string ToggleHotkeyCode = "pickupbabyanimals-togglepickup";
 
         private ICoreServerAPI sapi;
+        private ICoreClientAPI capi;
+
+        private IServerNetworkChannel serverChannel;
+        private IClientNetworkChannel clientChannel;
+
         private BabySnatcherConfig cfg;
+
+        // Client-side only: local view of whether pickup is enabled.
+        private bool pickupEnabledClient = true;
+
+        // Server-side: per-player toggle state (default = enabled).
+        private static readonly Dictionary<string, bool> PickupEnabledByPlayerUid = new Dictionary<string, bool>();
+        private static readonly object ToggleLock = new object();
+
+        public static bool IsPickupEnabledFor(IPlayer player)
+        {
+            if (player == null) return true;
+
+            lock (ToggleLock)
+            {
+                if (PickupEnabledByPlayerUid.TryGetValue(player.PlayerUID, out bool enabled))
+                {
+                    return enabled;
+                }
+            }
+
+            return true;
+        }
+
+        private static void SetPickupEnabledFor(string playerUid, bool enabled)
+        {
+            if (string.IsNullOrEmpty(playerUid)) return;
+
+            lock (ToggleLock)
+            {
+                PickupEnabledByPlayerUid[playerUid] = enabled;
+            }
+        }
 
         public override void Start(ICoreAPI api)
         {
@@ -23,37 +64,110 @@ namespace PickupBabyAnimals.src
 
             api.RegisterItemClass("ItemPickupBabyCreature", typeof(ItemPickupBabyCreature));
 
+            // Load config on both sides so the toggle chat notification option is available client-side too
+            LoadOrCreateConfig(api);
+
             if (api.Side == EnumAppSide.Server)
             {
                 sapi = (ICoreServerAPI)api;
 
-                LoadOrCreateConfig();
+                serverChannel = sapi.Network.RegisterChannel(NetworkChannelName)
+                    .RegisterMessageType<TogglePickupPacket>()
+                    .SetMessageHandler<TogglePickupPacket>(OnTogglePickupPacket);
 
                 sapi.Event.OnPlayerInteractEntity += OnPlayerInteractEntity;
             }
         }
 
-        public override void StartClientSide(ICoreClientAPI capi)
+        public override void StartClientSide(ICoreClientAPI api)
         {
-            // Ensure this mods lang entries are loaded (helps when assets are sent by a server, or load order is funky)
+            capi = api;
+
+            // Language files are normally loaded by the game. We keep this call as a fallback for edge cases,
+            // but we do not assume it will always populate mod keys during early startup.
             Lang.LoadLanguage(capi.Logger, capi.Assets, Lang.CurrentLocale);
+
+            // Config (client copy) for chat notification toggle
+            LoadOrCreateConfig(capi);
+
+            clientChannel = capi.Network.RegisterChannel(NetworkChannelName)
+                .RegisterMessageType<TogglePickupPacket>();
+
+            RegisterToggleHotkey();
         }
 
+        private void RegisterToggleHotkey()
+        {
+            // The controls screen displays the HotKey name as-is.
+            // So we must register it with the localized text.
+            string hotkeyName = GetModLang("pickupbabyanimals-hotkey-toggle");
+            capi.Input.RegisterHotKey(ToggleHotkeyCode, hotkeyName, GlKeys.P, HotkeyType.GUIOrOtherControls);
+            capi.Input.SetHotKeyHandler(ToggleHotkeyCode, OnToggleHotkeyPressed);
+        }
 
-        private void LoadOrCreateConfig()
+        /// <summary>
+        /// Robust language lookup.
+        /// Some Vintage Story calls expect domain-prefixed keys (modid:key), others work without.
+        /// This tries both so the user sees real translated strings instead of the key.
+        /// </summary>
+        private string GetModLang(string key)
+        {
+            if (string.IsNullOrEmpty(key)) return key;
+
+            string val = Lang.Get(key);
+            if (val == null || val == key)
+            {
+                val = Lang.Get("pickupbabyanimals:" + key);
+            }
+
+            return string.IsNullOrEmpty(val) ? key : val;
+        }
+
+        private bool OnToggleHotkeyPressed(KeyCombination comb)
+        {
+            pickupEnabledClient = !pickupEnabledClient;
+
+            // Tell server about the new state (multiplayer-safe)
+            try
+            {
+                clientChannel?.SendPacket(new TogglePickupPacket { Enabled = pickupEnabledClient });
+            }
+            catch
+            {
+                // Ignore: if networking isn't available for some reason, we still keep the local state.
+            }
+
+            if (cfg == null || cfg.ChatNotificationToggle)
+            {
+                string key = pickupEnabledClient ? "pickupbabyanimals-chat-toggle-on" : "pickupbabyanimals-chat-toggle-off";
+                string msg = GetModLang(key);
+                capi?.ShowChatMessage(msg);
+            }
+
+            return true;
+        }
+
+        private void OnTogglePickupPacket(IServerPlayer fromPlayer, TogglePickupPacket packet)
+        {
+            if (fromPlayer == null || packet == null) return;
+
+            SetPickupEnabledFor(fromPlayer.PlayerUID, packet.Enabled);
+        }
+
+        private void LoadOrCreateConfig(ICoreAPI api)
         {
             try
             {
-                cfg = sapi.LoadModConfig<BabySnatcherConfig>(ConfigFileName);
+                cfg = api.LoadModConfig<BabySnatcherConfig>(ConfigFileName);
                 if (cfg == null)
                 {
                     cfg = BabySnatcherConfig.CreateDefault();
-                    sapi.StoreModConfig(cfg, ConfigFileName);
+                    api.StoreModConfig(cfg, ConfigFileName);
                 }
             }
             catch (Exception e)
             {
-                sapi.Logger.Warning("PickupBabyAnimals: Failed to load {0}, using defaults. {1}", ConfigFileName, e.Message);
+                api.Logger.Warning("PickupBabyAnimals: Failed to load {0}, using defaults. {1}", ConfigFileName, e.Message);
                 cfg = BabySnatcherConfig.CreateDefault();
             }
         }
@@ -74,6 +188,9 @@ namespace PickupBabyAnimals.src
         {
             if (handling == EnumHandling.PreventDefault) return;
             if (entity == null || byPlayer == null) return;
+
+            // Respect per-player toggle (default = enabled)
+            if (!IsPickupEnabledFor(byPlayer)) return;
 
             // Don't allow picking up dead entities (corpses can still be interacted with for other actions)
             if (!entity.Alive) return;
@@ -120,8 +237,7 @@ namespace PickupBabyAnimals.src
             bool juvenile = BabySnatcherConfig.LooksLikeJuvenile(entity);
             if (!juvenile && !isWhitelisted && !IsAdultVanillaElk(entity)) return;
 
-
-// Build captured stack 
+            // Build captured stack 
             ItemStack stack = CreateCapturedBabyStack(entity);
             if (stack == null) return;
 
@@ -224,13 +340,15 @@ namespace PickupBabyAnimals.src
             return null;
         }
 
-        // === Everything below here is your existing logic (unchanged) ===
-
         private bool TryPickupWolfPupAsItem(Entity entity, EntityPlayer ePlayer)
         {
             if (sapi == null) return false;
             if (entity == null || ePlayer == null) return false;
             if (entity.World.Side != EnumAppSide.Server) return false;
+
+            // Respect per-player toggle
+            var plr = ePlayer.Player;
+            if (plr != null && !IsPickupEnabledFor(plr)) return false;
 
             // Don't allow pickup of a corpse.
             if (!entity.Alive) return false;
@@ -258,7 +376,6 @@ namespace PickupBabyAnimals.src
 
             if (!fullyGiven)
             {
-                // Client will localize ingameerror-pickupbabyanimals-puppy-invfull
                 SendLocalizedError(sPlayer, "pickupbabyanimals-puppy-invfull");
                 return false;
             }
@@ -354,6 +471,13 @@ namespace PickupBabyAnimals.src
             if (path == "tameddeer-albinoelk-male-adult" || path == "tameddeer-albinoelk-female-adult") return true;
 
             return false;
+        }
+
+        [ProtoContract]
+        public class TogglePickupPacket
+        {
+            [ProtoMember(1)]
+            public bool Enabled;
         }
     }
 }

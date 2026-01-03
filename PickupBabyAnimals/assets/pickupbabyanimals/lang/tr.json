@@ -2,5 +2,8 @@
   "item-capturedbaby": "Yakalanmış Hayvan",
   "game:ingameerror-pickupbabyanimals-toobig": "Çok büyük, sırt çantası yuvası gerekir!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Bu türü kaldıramazsın!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Envanterinde bir kurt yavrusu için yer yok."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Envanterinde bir kurt yavrusu için yer yok.",
+  "pickupbabyanimals-hotkey-toggle": "Hayvan kaldırmayı aç/kapat",
+  "pickupbabyanimals-chat-toggle-on": "Hayvanları kaldırma: etkin",
+  "pickupbabyanimals-chat-toggle-off": "Hayvanları kaldırma: devre dışı"
 }

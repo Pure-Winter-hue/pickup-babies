@@ -2,5 +2,8 @@
   "item-capturedbaby": "Gefangenes Tier",
   "game:ingameerror-pickupbabyanimals-toobig": "Zu groß, benötigt Rucksack-Slot!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Du kannst diese Art nicht aufheben!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Kein Platz in deinem Inventar für ein Wolfsjunges."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Kein Platz in deinem Inventar für ein Wolfsjunges.",
+  "pickupbabyanimals-hotkey-toggle": "Tieraufheben umschalten",
+  "pickupbabyanimals-chat-toggle-on": "Tiere aufheben: aktiviert",
+  "pickupbabyanimals-chat-toggle-off": "Tiere aufheben: deaktiviert"
 }

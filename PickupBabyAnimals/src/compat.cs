@@ -69,6 +69,10 @@ namespace PickupBabyAnimals.src
             if (handling == EnumHandling.PreventDefault) return;
             if (entity == null || byPlayer == null) return;
 
+
+            // Respect per-player toggle (default = enabled)
+            if (!PickupBabyAnimalsModSystem.IsPickupEnabledFor(byPlayer)) return;
+
             // Don't allow picking up dead entities.
             if (!entity.Alive) return;
 

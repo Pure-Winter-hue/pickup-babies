@@ -2,5 +2,8 @@
   "item-capturedbaby": "Chytené zviera",
   "game:ingameerror-pickupbabyanimals-toobig": "Príliš veľké, vyžaduje slot batohu!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Tento druh nemôžeš zdvihnúť!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "V tvojom inventári nie je miesto pre vlčie šteňa."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "V tvojom inventári nie je miesto pre vlčie šteňa.",
+  "pickupbabyanimals-hotkey-toggle": "Prepnúť zdvíhanie zvierat",
+  "pickupbabyanimals-chat-toggle-on": "Zdvíhanie zvierat: zapnuté",
+  "pickupbabyanimals-chat-toggle-off": "Zdvíhanie zvierat: vypnuté"
 }

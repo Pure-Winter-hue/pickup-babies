@@ -2,5 +2,8 @@
   "item-capturedbaby": "Fangað dýr",
   "game:ingameerror-pickupbabyanimals-toobig": "Of stórt, þarf bakpokarauf!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Þú getur ekki tekið upp þessa tegund!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Ekkert pláss í birgðunum þínum fyrir úlfshvolp."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Ekkert pláss í birgðunum þínum fyrir úlfshvolp.",
+  "pickupbabyanimals-hotkey-toggle": "Kveikja/slökkva á að taka upp dýr",
+  "pickupbabyanimals-chat-toggle-on": "Að taka upp dýr: virkt",
+  "pickupbabyanimals-chat-toggle-off": "Að taka upp dýr: óvirkt"
 }

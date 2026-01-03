@@ -2,5 +2,8 @@
   "item-capturedbaby": "Animale catturato",
   "game:ingameerror-pickupbabyanimals-toobig": "Troppo grande, richiede uno slot nello zaino!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Non puoi raccogliere questa specie!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Nessuno spazio nel tuo inventario per un cucciolo di lupo."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Nessuno spazio nel tuo inventario per un cucciolo di lupo.",
+  "pickupbabyanimals-hotkey-toggle": "Attiva/disattiva raccolta animali",
+  "pickupbabyanimals-chat-toggle-on": "Raccogli animali: attivato",
+  "pickupbabyanimals-chat-toggle-off": "Raccogli animali: disattivato"
 }

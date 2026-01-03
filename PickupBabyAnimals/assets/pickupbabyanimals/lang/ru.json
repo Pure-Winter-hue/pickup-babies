@@ -2,5 +2,8 @@
   "item-capturedbaby": "Пойманное животное",
   "game:ingameerror-pickupbabyanimals-toobig": "Слишком большой, требуется слот рюкзака!",
   "game:ingameerror-pickupbabyanimals-cantpickup": "Ты не можешь поднять этот вид!",
-  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Нет места в инвентаре для волчонка."
+  "game:ingameerror-pickupbabyanimals-puppy-invfull": "Нет места в инвентаре для волчонка.",
+  "pickupbabyanimals-hotkey-toggle": "Переключить поднятие животных",
+  "pickupbabyanimals-chat-toggle-on": "Подбор животных: включено",
+  "pickupbabyanimals-chat-toggle-off": "Подбор животных: выключено"
 }
