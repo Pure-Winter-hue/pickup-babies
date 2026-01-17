@@ -236,7 +236,10 @@ namespace PickupBabyAnimals.src
             bool isWhitelisted = cfg != null && cfg.IsWhitelisted(entity);
 
             bool juvenile = BabySnatcherConfig.LooksLikeJuvenile(entity);
-            if (!juvenile && !isWhitelisted && !IsAdultVanillaElk(entity)) return;
+            // Default behavior: only juveniles are pick-up-able.
+            // If you want to allow picking up non-juveniles (e.g. adult tamed elk),
+            // add them to the Whitelist in babysnatcher.json.
+            if (!juvenile && !isWhitelisted) return;
 
             // Build captured stack 
             ItemStack stack = CreateCapturedBabyStack(entity);
